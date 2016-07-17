@@ -46,3 +46,12 @@ This has a a bit to do with scope and a lot to do with the method look up path
 in your first snippet, this line `line.adjust` word will look for the `adjust_word` method on the class its being called on. In this case a string. It returns undefined method because it cant find that method on string or any of the modules included on it or any of the super classes the string inherits from. You have defined the adjust_word method on the main object which isnt in the method look up path for a string.
 
 You're overcomplicating things here in my opinion, using `strip.downcase` is perfectly fine. If you were to extract anything to a different method it would be this logic `if line.strip.length >= 5 && line.strip.length <= 12` which evaluates to a boolean.
+
+The new method should look like this:
+
+```ruby
+	def between_5_and_12_characters?(line)
+		line.strip.length >= 5 && line.strip.length <= 12
+	end
+```
+
