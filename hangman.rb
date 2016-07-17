@@ -28,8 +28,12 @@ class WordBank
 
 	def create_word_bank
 		dictionary.readlines.each do |line|
-			wordlist << line.strip.downcase if line.strip.length >= 5 && line.strip.length <= 12
+			wordlist << line.strip.downcase if between_5_and_12_characters?(line)
 		end		
+	end
+
+	def between_5_and_12_characters?(line)
+		line.strip.length >= 5 && line.strip.length <= 12
 	end
 
 	def close_dictionary
