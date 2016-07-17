@@ -48,11 +48,12 @@ class SecretWord
 
 	def initialize
 		@wordbank = access_wordbank
+
+		generate_random_word
 	end
 
-	def access_wordbank
-		WordBank.new
-	end
+	
+	public
 
 	def generate_random_word
 		wordbank.find_random_word
@@ -60,6 +61,13 @@ class SecretWord
 
 	def close_wordbank
 		wordbank.dictionary.close
+	end
+
+	
+	protected
+
+	def access_wordbank
+		WordBank.new
 	end
 
 end
