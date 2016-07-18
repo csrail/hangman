@@ -1,5 +1,7 @@
 ###Clarifications
 
+####1. On simplifying methods
+
 The following code, and its output were once happening within the class Secret Word:
 
 ```ruby
@@ -54,4 +56,15 @@ The new method should look like this:
 		line.strip.length >= 5 && line.strip.length <= 12
 	end
 ```
+
+####2. Accessing public and protected methods
+Public methods can act on an object directly.
+
+Protected methods can only be evoked on an object through proxy of an attr_reader method.
+
+
+####3. Gotcha - attr_writer method mixed up with declaring local variable
+So when using an attr_accessor method within the same class it doesn't work like it would outside of it. @codyloyd was right about all of it. Ruby treats it as a local variable within the method and sets that.
+
+The setter method needs to be called on an instance of the class so `self.player_guess = … works`. You are better just doing what your currently doing though, `@player_guess = …` that seems to be the accepted way to set instance variables within the same class. 
 
