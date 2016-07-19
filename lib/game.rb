@@ -1,12 +1,13 @@
 class Game
-	attr_reader :secret_word, :display_letters
-	attr_accessor :player_guess
+	attr_reader :secret_word, :display_letters, :incorrect_guess_history
+	attr_accessor :player_guess, :guesses_left
 
 	def initialize
-		@secret_word = "Crusade" #new_secret_word
-		@display_letters = Array.new(secret_word_length) {""}
+		@secret_word = "committee".split(//) #new_secret_word
+		@display_letters = Array.new(secret_word.length) {"_"}
 		@player_guess = ""
 		@incorrect_guess_history = []
+		@guesses_left = 7
 
 		play
 	end
@@ -15,7 +16,14 @@ class Game
 		system 'clear'
 		make_guess
 		sanitise_input
-		p player_guess
+		filter_input
+
+		#check outputs
+		puts "Player Guess: #{player_guess}"
+		puts "Display Letters: #{display_letters}"
+		puts "Incorrect Guess History: #{incorrect_guess_history}"
+		puts "Gusses Left: #{guesses_left} / 7"
+		puts "Secret Word: #{secret_word}"
 	end
 	
 	def make_guess
@@ -58,19 +66,34 @@ class Game
 	end
 =end
 
+	def filter_input
+		check_guess
+	end
+
 	def record_guess
+
 	end
 
-	def compare_guess
+	def check_guess
+		if secret_word.include? player_guess
+			correct_guess_response
+		else
+			incorrect_guess_response
+		end
 	end
 
-	def correct_guess
+	def correct_guess_response
+		secret_word.each_with_index do |letter, index|
+			display_letters[index] = letter if letter == player_guess
+		end
 	end
 
-	def incorrect_guess
+	def incorrect_guess_response
+		incorrect_guess_history << player_guess
+		@guesses_left -= 1
 	end
 
-	def display_history
+	def display_current_environment
 	end
 
 	def player_wins?
@@ -88,10 +111,6 @@ class Game
 
 	def new_secret_word
 		SecretWord.new.generate_random_word.split(//)
-	end
-
-	def secret_word_length
-		secret_word.size
 	end
 
 end
