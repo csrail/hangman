@@ -1,6 +1,6 @@
 class Game
-	attr_reader :secret_word, :display_letters, :incorrect_guess_history
-	attr_accessor :player_guess, :guesses_left
+	attr_reader :secret_word, :display_letters, :incorrect_guess_history, :user_letter_display, :user_incorrect_guess_history
+	attr_accessor :player_guess, :guesses_left, :player_wins, :player_loses
 
 	def initialize
 		@secret_word = "committee".split(//) #new_secret_word
@@ -9,14 +9,24 @@ class Game
 		@incorrect_guess_history = []
 		@guesses_left = 7
 
-		play
+		@user_letter_display = ""
+		@user_incorrect_guess_history = ""
+
+		@player_wins = false
+		@player_loses = false
+
+		system 'clear'
+
+		until player_wins == true || player_loses == true
+			play
+		end
 	end
 
 	def play
-		system 'clear'
 		make_guess
 		sanitise_input
 		filter_input
+		check_win_or_lose
 
 		#check outputs
 		puts "Player Guess: #{player_guess}"
@@ -24,6 +34,10 @@ class Game
 		puts "Incorrect Guess History: #{incorrect_guess_history}"
 		puts "Gusses Left: #{guesses_left} / 7"
 		puts "Secret Word: #{secret_word}"
+
+		puts "User Display Letters: #{user_letter_display}"
+		puts "User Incorrect Guess History: #{user_incorrect_guess_history}"
+		puts
 	end
 	
 	def make_guess
@@ -34,6 +48,7 @@ class Game
 		@player_guess = gets.chomp
 		only_one_character?
 		is_a_letter?
+		repeat_letter?
 	end
 
 	def only_one_character?
@@ -51,12 +66,22 @@ class Game
 	end
 
 	def repeat_letter?
+		repeat_letter_correct?
+		repeat_letter_incorrect?
 	end
 
 	def repeat_letter_correct?
+		until !(display_letters.include? player_guess)
+			p "You have already correctly guessed '#{player_guess}' before:"
+			return sanitise_input
+		end
 	end
 
 	def repeat_letter_incorrect?
+		until !(incorrect_guess_history.include? player_guess)
+			p "You have incorrectly guessed '#{player_guess}' before:"
+			return sanitise_input
+		end
 	end
 
 =begin
@@ -68,40 +93,65 @@ class Game
 
 	def filter_input
 		check_guess
-	end
-
-	def record_guess
-
+		display_current_environment
 	end
 
 	def check_guess
 		if secret_word.include? player_guess
-			correct_guess_response
+			record_correct_guess
 		else
-			incorrect_guess_response
+			record_incorrect_guess
 		end
 	end
 
-	def correct_guess_response
+	def record_correct_guess
 		secret_word.each_with_index do |letter, index|
 			display_letters[index] = letter if letter == player_guess
 		end
 	end
 
-	def incorrect_guess_response
+	def record_incorrect_guess
 		incorrect_guess_history << player_guess
 		@guesses_left -= 1
 	end
 
 	def display_current_environment
+		display_letters_for_user
+		incorrect_guess_history_for_user
+	end
+
+	def display_letters_for_user
+		@user_letter_display = display_letters.join(" ")
+	end
+
+	def incorrect_guess_history_for_user
+		@user_incorrect_guess_history = incorrect_guess_history.join(", ")
+	end
+
+	def check_win_or_lose
+		player_wins?
+		if player_wins == true
+			puts ""
+					 "Player wins!" 
+					 "The secret word was indeed `#{secret_word.join("")}`!"
+			abort
+		elsif
+			player_loses?
+			puts "",
+					 "Player loses"
+			     "`#{secret_word.join("")}` was the secret word."
+			abort
+		end
+
 	end
 
 	def player_wins?
+		@player_wins = true if display_letters == secret_word
 	end
 
-	def player_lose?
+	def player_loses?
+		@player_loses = true if guesses_left == 0
 	end
-
 
 	private
 
