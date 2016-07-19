@@ -1,11 +1,12 @@
 class Game
-	attr_reader :secret_word, :user_display
+	attr_reader :secret_word, :display_letters
 	attr_accessor :player_guess
 
 	def initialize
-		@secret_word = split_word
-		@user_display = Array.new(secret_word_length) {""}
+		@secret_word = "Crusade" #new_secret_word
+		@display_letters = Array.new(secret_word_length) {""}
 		@player_guess = ""
+		@incorrect_guess_history = []
 
 		play
 	end
@@ -86,11 +87,7 @@ class Game
 	end
 
 	def new_secret_word
-		SecretWord.new.generate_random_word
-	end
-
-	def split_word
-		new_secret_word.split(//)
+		SecretWord.new.generate_random_word.split(//)
 	end
 
 	def secret_word_length
