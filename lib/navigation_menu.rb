@@ -1,5 +1,6 @@
-require_relative "load_state.rb"
+require "./lib/save_load_feature.rb"
 
-#new game
+class Menu
+	include LoadFeature
 
-#load game
+end

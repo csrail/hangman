@@ -1,7 +1,8 @@
-require_relative 'save_load_feature.rb'
+require './lib/save_load_feature.rb'
+require 'json'
 
 class Game
-	include JSONable
+	include SaveFeature
 
 	attr_reader :secret_word, :display_letters, :incorrect_guess_history, :user_letter_display, :user_incorrect_guess_history
 	attr_accessor :player_guess, :guesses_left, :player_wins, :player_loses
@@ -26,26 +27,6 @@ class Game
 		end
 	end
 
-	
-
-	def to_json
-		{
-			@secret_word => secret_word,
-			@display_letters => display_letters,
-			@player_guess => player_guess,
-			@incorrect_guess_history => incorrect_guess_history,
-			@guesses_left => guesses_left,
-
-			@user_letter_display => user_letter_display,
-			@user_incorrect_guess_history => user_incorrect_guess_history,
-
-			@player_wins => player_wins,
-			@player_loses => player_loses,
-		}.to_json
-	end
-
-	
-	
 	private
 
 	def play
@@ -75,19 +56,6 @@ class Game
 		only_one_character?
 		is_a_letter?
 		repeat_letter?
-	end
-
-	def save?
-		if player_guess == "save"
-			puts ""
-			p "Session saved."
-			commit_save(save_state)
-			abort
-		end
-	end
-
-	def save_state
-		self.to_json
 	end
 
 	def only_one_character?
@@ -169,14 +137,14 @@ class Game
 	def check_win_or_lose
 		player_wins?
 		if player_wins == true
-			puts ""
-					 "Player wins!" 
+			puts "",
+					 "Player wins!",
 					 "The secret word was indeed `#{secret_word.join("")}`!"
 			abort
 		elsif
 			player_loses?
 			puts "",
-					 "Player loses"
+					 "Player loses",
 			     "`#{secret_word.join("")}` was the secret word."
 			abort
 		end
