@@ -1,4 +1,8 @@
+require_relative 'save_load_feature.rb'
+
 class Game
+	include JSONable
+
 	attr_reader :secret_word, :display_letters, :incorrect_guess_history, :user_letter_display, :user_incorrect_guess_history
 	attr_accessor :player_guess, :guesses_left, :player_wins, :player_loses
 
@@ -22,8 +26,30 @@ class Game
 		end
 	end
 
+	
+
+	def to_json
+		{
+			@secret_word => secret_word,
+			@display_letters => display_letters,
+			@player_guess => player_guess,
+			@incorrect_guess_history => incorrect_guess_history,
+			@guesses_left => guesses_left,
+
+			@user_letter_display => user_letter_display,
+			@user_incorrect_guess_history => user_incorrect_guess_history,
+
+			@player_wins => player_wins,
+			@player_loses => player_loses,
+		}.to_json
+	end
+
+	
+	
+	private
+
 	def play
-		make_guess
+		make_guess_message
 		sanitise_input
 		filter_input
 		check_win_or_lose
@@ -40,15 +66,28 @@ class Game
 		puts
 	end
 	
-	def make_guess
-		p "Guess a letter:"
-	end
+
+	protected
 
 	def sanitise_input
 		@player_guess = gets.chomp
+		save?
 		only_one_character?
 		is_a_letter?
 		repeat_letter?
+	end
+
+	def save?
+		if player_guess == "save"
+			puts ""
+			p "Session saved."
+			commit_save(save_state)
+			abort
+		end
+	end
+
+	def save_state
+		self.to_json
 	end
 
 	def only_one_character?
@@ -84,12 +123,8 @@ class Game
 		end
 	end
 
-=begin
-	def validation_feedback(args)
-		p args[:msg]
 
-	end
-=end
+	protected
 
 	def filter_input
 		check_guess
@@ -128,6 +163,9 @@ class Game
 		@user_incorrect_guess_history = incorrect_guess_history.join(", ")
 	end
 
+
+	private
+
 	def check_win_or_lose
 		player_wins?
 		if player_wins == true
@@ -153,7 +191,12 @@ class Game
 		@player_loses = true if guesses_left == 0
 	end
 
+
 	private
+
+	def make_guess_message
+		p "Guess a letter:"
+	end
 
 	def alphabet
 		("a".."z").to_a
