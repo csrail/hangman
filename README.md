@@ -68,3 +68,88 @@ So when using an attr_accessor method within the same class it doesn't work like
 
 The setter method needs to be called on an instance of the class so `self.player_guess = … works`. You are better just doing what your currently doing though, `@player_guess = …` that seems to be the accepted way to set instance variables within the same class. 
 
+####4. Gotcha - How to set a key as the instance variable name and not the value it points to:
+
+Below are the to_json methods used; all but the `to_json_incorrect` produce the right output. The error in `to_json_incorrect` occurs because you are retrieving the instance variable's value and not the name. To get the name simply wrap `@instance_variable_name` in string quotation marks!
+
+
+```ruby
+def to_json_correct
+	hash = {}
+	self.instance_variables.each do |var|
+		hash[var] = self.instance_variable_get var
+	end
+	hash.to_json
+end
+
+
+def to_json_incorrect
+		{
+			@secret_word => secret_word,
+			@display_letters => display_letters,
+			@player_guess => player_guess,
+			@incorrect_guess_history => incorrect_guess_history,
+			@guesses_left => guesses_left,
+
+			@user_letter_display => user_letter_display,
+			@user_incorrect_guess_history => user_incorrect_guess_history,
+
+			@player_wins => player_wins,
+			@player_loses => player_loses,
+		}.to_json
+	end
+ 
+
+	def to_json_brute_force
+		hash = {}
+		hash["@secret_word"] = secret_word
+		hash["@display_letters"] = display_letters
+		hash["@player_guess"] = player_guess
+		hash["@incorrect_guess_history"] = incorrect_guess_history
+
+		hash["@user_letter_display"] = user_letter_display
+		hash["@user_letter_display"] = user_incorrect_guess_history
+
+		hash["@player_wins"] = player_wins
+		hash["@player_loses"] = player_loses
+
+		hash.to_json
+	end
+
+	def to_json_brute_force_2
+		{
+			"@secret_word" => secret_word,
+			"@display_letters" => display_letters,
+			"@player_guess" => player_guess,
+			"@incorrect_guess_history" => incorrect_guess_history,
+			"@guesses_left" => guesses_left,
+
+			"@user_letter_display" => user_letter_display,
+			"@user_incorrect_guess_history" => user_incorrect_guess_history,
+
+			"@player_wins" => player_wins,
+			"@player_loses" => player_loses,
+		}.to_json
+	end
+
+	def to_json_brute_force_3
+		hash = {}
+		hash[self.secret_word] = secret_word
+
+		hash.to_json
+	end
+```
+
+
+The output of the `to_json_incorrect` method:
+
+```json
+{"[\"c\", \"o\", \"m\", \"m\", \"i\", \"t\", \"t\", \"e\", \"e\"]":["c","o","m","m","i","t","t","e","e"],"[\"c\", \"_\", \"_\", \"_\", \"_\", \"_\", \"_\", \"_\", \"_\"]":["c","_","_","_","_","_","_","_","_"],"save":"save","[\"a\"]":["a"],"6":6,"c _ _ _ _ _ _ _ _":"c _ _ _ _ _ _ _ _","a":"a","false":false}
+```
+
+
+The output of the `to_json_correct` method:
+
+```json
+{"@secret_word":["c","o","m","m","i","t","t","e","e"],"@display_letters":["c","_","_","_","_","_","_","_","_"],"@player_guess":"save","@incorrect_guess_history":["a"],"@guesses_left":6,"@user_letter_display":"c _ _ _ _ _ _ _ _","@user_incorrect_guess_history":"a","@player_wins":false,"@player_loses":false}
+```
