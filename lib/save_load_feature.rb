@@ -14,7 +14,7 @@ module SaveFeature
 	end	
 
 	def commit_save(save)
-		file_path = File.open("./lib/save-states/brute_force_2.json", "w") do |f|
+		file_path = File.open("./lib/save-states/attempt.json", "w") do |f|
 			f.write(save)
 		end
 	end
@@ -22,7 +22,7 @@ module SaveFeature
 	def to_json
 		hash = {}
 		self.instance_variables.each do |var|
-			hash[var] = self.instance_variable_get var
+			hash[":#{var}"] = self.instance_variable_get var
 		end
 		hash.to_json
 	end
@@ -30,8 +30,10 @@ module SaveFeature
 end
 
 module LoadFeature
-	def from_json
-		
+	string = File.open("./lib/save-states/attempt.json")
+	
+	def from_json (string)
+		JSON.load(string)
 	end
 end
 

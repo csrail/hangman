@@ -7,18 +7,18 @@ class Game
 	attr_reader :secret_word, :display_letters, :incorrect_guess_history, :user_letter_display, :user_incorrect_guess_history
 	attr_accessor :player_guess, :guesses_left, :player_wins, :player_loses
 
-	def initialize
-		@secret_word = "committee".split(//) #new_secret_word
-		@display_letters = Array.new(secret_word.length) {"_"}
-		@player_guess = ""
-		@incorrect_guess_history = []
-		@guesses_left = 7
+	def initialize(args={})
+		@secret_word 									= args[:@secret_word] 						 			|| new_secret_word #{}"committee".split(//) 
+		@display_letters 							= args[:@display_letters] 				 			|| Array.new(secret_word.length) {"_"}
+		@player_guess 								= args[:@player_guess]						 			|| ""
+		@incorrect_guess_history 			= args[:@incorrect_guess_history] 			|| []
+		@guesses_left 								= args[:@guesses_left]						 			|| 7
 
-		@user_letter_display = ""
-		@user_incorrect_guess_history = ""
+		@user_letter_display 					= args[:@user_letter_display]		 				|| ""
+		@user_incorrect_guess_history = args[:@user_incorrect_guess_history]	|| ""
 
-		@player_wins = false
-		@player_loses = false
+		@player_wins 									= args[:@player_wins]										|| false
+		@player_loses 								= args[:@player_loses]									|| false
 
 		system 'clear'
 
@@ -35,12 +35,12 @@ class Game
 		filter_input
 		check_win_or_lose
 
-		#check outputs
+		system 'clear'
 		puts "Player Guess: #{player_guess}"
 		puts "Display Letters: #{display_letters}"
 		puts "Incorrect Guess History: #{incorrect_guess_history}"
 		puts "Gusses Left: #{guesses_left} / 7"
-		puts "Secret Word: #{secret_word}"
+		#puts "Secret Word: #{secret_word}"
 
 		puts "User Display Letters: #{user_letter_display}"
 		puts "User Incorrect Guess History: #{user_incorrect_guess_history}"
