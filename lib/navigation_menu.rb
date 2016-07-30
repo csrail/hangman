@@ -35,17 +35,19 @@ class Menu
 		when option == "1"
 			system 'ruby hangman.rb'
 		when option == "2"
+			p "Feature not implemented yet."
 			#puts Dir.getwd
+			#p "before"
 			#Dir.chdir("./lib/save-states")
+			#p "after"
 			filelist = []
 
 			Dir.foreach("./lib/save-states") do |filename|
 				filelist << filename if filename.match(".json")
 			end
 			p filelist
-			#p filelist.sort_by {|f| File.mtime("f")}
-			
-		when option == "\u0003" || "q"
+			#p filelist.sort_by {|f| File.mtime("f")}	
+		when option == "\u0003" || option == "q"
 			system 'exit'
 		else
 			return listen_for_option
