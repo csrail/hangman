@@ -1,3 +1,5 @@
+require 'json'
+
 module SaveFeature
 
 	def save?
@@ -22,7 +24,7 @@ module SaveFeature
 	def to_json
 		hash = {}
 		self.instance_variables.each do |var|
-			hash[":#{var}"] = self.instance_variable_get var
+			hash[var] = self.instance_variable_get var
 		end
 		hash.to_json
 	end
@@ -30,11 +32,12 @@ module SaveFeature
 end
 
 module LoadFeature
-	string = File.open("./lib/save-states/attempt.json")
+end
 	
 	def from_json (string)
 		JSON.load(string)
 	end
-end
 
 
+string = File.open("./lib/save-states/attempt.json")
+from_json(string)
