@@ -1,7 +1,6 @@
 require 'json'
 
 module SaveFeature
-
 	def save?
 		if player_guess == "save"
 			puts ""
@@ -16,7 +15,7 @@ module SaveFeature
 	end	
 
 	def commit_save(save)
-		file_path = File.open("./lib/save-states/attempt.json", "w") do |f|
+		file_path = File.open("./lib/save-states/#{user_letter_display}.json", "w") do |f|
 			f.write(save)
 		end
 	end
@@ -28,16 +27,4 @@ module SaveFeature
 		end
 		hash.to_json
 	end
-
 end
-
-module LoadFeature
-end
-	
-	def from_json (string)
-		JSON.load(string)
-	end
-
-
-string = File.open("./lib/save-states/attempt.json")
-from_json(string)

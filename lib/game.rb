@@ -1,4 +1,5 @@
-require './lib/save_load_feature.rb'
+require './lib/save_feature.rb'
+require './lib/load_feature.rb'
 require 'json'
 
 class Game
@@ -36,9 +37,9 @@ class Game
 		check_win_or_lose
 
 		system 'clear'
-		puts "Player Guess: #{player_guess}"
-		puts "Display Letters: #{display_letters}"
-		puts "Incorrect Guess History: #{incorrect_guess_history}"
+		#puts "Player Guess: #{player_guess}"
+		#puts "Display Letters: #{display_letters}"
+		#puts "Incorrect Guess History: #{incorrect_guess_history}"
 		puts "Gusses Left: #{guesses_left} / 7"
 		#puts "Secret Word: #{secret_word}"
 
