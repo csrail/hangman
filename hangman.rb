@@ -1,9 +1,6 @@
-require "./lib/secret_word.rb"
-require "./lib/word_bank.rb"
-require "./lib/game.rb"
-require 'json'
+require "./lib/navigation_menu.rb"
 
-Game.new
+Menu.new
 
 #REALLY GOOD STUFF HERE
 =begin 
