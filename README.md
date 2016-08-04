@@ -1,3 +1,23 @@
+##Exploration
+A CLI game of hangman.
+
+##Exposition
+This project was built to test my understanding of file input / output and serialisation / deserialisation. The aim was to start becoming familiar with how Appplication Processing Interfaces worked - communicating between two or more scripts to achieve a product.
+
+It involved further research into **JSON** and how the **File** and **Dir** Ruby objects worked.
+
+From the [Odin Project's](http://www.theodinproject.com/ruby-programming/ruby-on-the-web) curriculum.
+
+##Excursion
+JSON was used as the data-interchange format over YAML for its redability and its agnostic compatibility with other languages. Understanding how Ruby objects "exist" is the key to knowing how to serialise and deserialise. One serialises Ruby objects into a *.json* string. And one deserialises the *.json* string into a Ruby object. The data stored within a Ruby class that gives context to its existence are the important instance variables attributed to that object. On a macroscale users will see the entire game engine as important; this may be mistaken as the important object to load but it is not. The game engine becomes a constant as far as the user is concerned. What is suspect to change and evolution, are the game engine's instance variables. These instance variables provide the context for which the game operates. Without them, the game engine is static and can only ever star at the beginning. Therefore you should only save the instance variables then load those instance variables into the game engine. This separates save states from the game engine which is important for distribution and maintainability.
+
+Resources used to learn about json:
+- [Ruby: Reading a .json File to Hash](https://hackhands.com/ruby-read-json-file-hash/)
+- [Ruby objects and JSON serialization](http://stackoverflow.com/questions/4464050/ruby-objects-and-json-serialization-without-rails)
+
+
+Objects of the [Dir](http://ruby-doc.org/core-2.2.0/Dir.html) and [File](http://ruby-doc.org/core-2.2.0/File.html) class were integral to this project. Without them, a load feature would not be possible. To gain insight on how to use them, start with `puts Dir.pwd` and try out `Dir.chdir(<file_path>)`.
+
 ###Clarifications
 
 ####1. On simplifying methods
