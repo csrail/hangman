@@ -6,10 +6,12 @@ This project was built to test my understanding of file input / output and seria
 
 It involved further research into **JSON** and how the **File** and **Dir** Ruby objects worked.
 
+An indirect result of learning about I/O was the use of "piping" input more effectively through different validation and redirection methods. This involved using the **case** conditional and **return**.
+
 From the [Odin Project's](http://www.theodinproject.com/ruby-programming/ruby-on-the-web) curriculum.
 
 ##Excursion
-JSON was used as the data-interchange format over YAML for its redability and its agnostic compatibility with other languages. Understanding how Ruby objects "exist" is the key to knowing how to serialise and deserialise. One serialises Ruby objects into a *.json* string. And one deserialises the *.json* string into a Ruby object. The data stored within a Ruby class that gives context to its existence are the important instance variables attributed to that object. On a macroscale users will see the entire game engine as important; this may be mistaken as the important object to load but it is not. The game engine becomes a constant as far as the user is concerned. What is suspect to change and evolution, are the game engine's instance variables. These instance variables provide the context for which the game operates. Without them, the game engine is static and can only ever star at the beginning. Therefore you should only save the instance variables then load those instance variables into the game engine. This separates save states from the game engine which is important for distribution and maintainability.
+JSON was used as the data-interchange format over YAML for its redability and its agnostic compatibility with other languages. Understanding how Ruby objects "exist" is the key to knowing how to serialise and deserialise. One serialises Ruby objects into a *.json* string. And one deserialises the *.json* string into a Ruby object. The data stored within a Ruby class that gives context and importance to its existence are instance variables attributed to that object. On a macroscale users will see the entire game engine as important; this may be mistaken as the important object to load but it is not. The game engine becomes a constant as far as the user is concerned. What is suspect to change and evolve, are the game engine's instance variables. These instance variables at the microscale level provide the context for which the game operates. Without them, the game engine is static and can only ever start at the beginning. Therefore you should only save the instance variables then load those instance variables into the game engine. This separates save states from the game engine which is important for storage, distribution and maintainability.
 
 Resources used to learn about json:
 - [Ruby: Reading a .json File to Hash](https://hackhands.com/ruby-read-json-file-hash/)
@@ -17,6 +19,9 @@ Resources used to learn about json:
 
 
 Objects of the [Dir](http://ruby-doc.org/core-2.2.0/Dir.html) and [File](http://ruby-doc.org/core-2.2.0/File.html) class were integral to this project. Without them, a load feature would not be possible. To gain insight on how to use them, start with `puts Dir.pwd` and try out `Dir.chdir(<file_path>)`.
+
+The **io/console** gem was useful to `.getch` a STDIN therefore inherently listening to only one character at a time and ignore the needs to press enter to submit the request. See method "sanitise_input" in game.rb and "redirect_input" in navigation_menu.rb for examples.
+
 
 ###Clarifications
 
