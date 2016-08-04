@@ -35,24 +35,14 @@ class Game
 		sanitise_input
 		filter_input
 		check_win_or_lose
-
-		system 'clear'
-		#puts "Player Guess: #{player_guess}"
-		#puts "Display Letters: #{display_letters}"
-		#puts "Incorrect Guess History: #{incorrect_guess_history}"
-		puts "Gusses Left: #{guesses_left} / 7"
-		#puts "Secret Word: #{secret_word}"
-
-		puts "User Display Letters: #{user_letter_display}"
-		puts "User Incorrect Guess History: #{user_incorrect_guess_history}"
-		puts
+    show_user_interface
 	end
 	
 
 	protected
 
 	def sanitise_input
-		@player_guess = gets.chomp
+		@player_guess = gets.chomp.downcase
 		save?
 		only_one_character?
 		is_a_letter?
@@ -138,15 +128,17 @@ class Game
 	def check_win_or_lose
 		player_wins?
 		if player_wins == true
-			puts "",
-					 "Player wins!",
-					 "The secret word was indeed `#{secret_word.join("")}`!"
+			puts 
+			puts "Hey you did it!"
+			puts "The secret word was indeed `#{secret_word.join("")}`!"
+      puts
 			abort
 		elsif
 			player_loses?
-			puts "",
-					 "Player loses",
-			     "`#{secret_word.join("")}` was the secret word."
+			puts 
+			puts "That was a tough one."
+			puts "'#{secret_word.join("")}' was the secret word."
+      puts
 			abort
 		end
 
@@ -162,9 +154,31 @@ class Game
 
 
 	private
+  
+  def show_user_interface
+    system 'clear'
+    #puts "Player Guess: #{player_guess}"
+    #puts "Display Letters: #{display_letters}"
+    #puts "Incorrect Guess History: #{incorrect_guess_history}"
+    #puts "Secret Word: #{secret_word}"
+
+    puts
+    puts
+    puts "\t         #{user_letter_display}"
+    puts
+    puts
+    puts "\tGuess History:"
+    puts
+    puts "\t         #{user_incorrect_guess_history}"
+    puts
+    puts
+    puts "\tGuesses Left: #{guesses_left} / 7"
+    puts
+    puts
+  end
 
 	def make_guess_message
-		p "Guess a letter:"
+		puts "Guess a letter:"
 	end
 
 	def alphabet
