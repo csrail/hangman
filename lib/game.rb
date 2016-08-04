@@ -23,6 +23,8 @@ class Game
 
 		system 'clear'
 
+    show_user_interface
+
 		until player_wins == true || player_loses == true
 			play
 		end
@@ -164,7 +166,7 @@ class Game
 
     puts
     puts
-    puts "\t         #{user_letter_display}"
+    puts "\t         #{user_letter_display == "" ? display_letters.join(" ") : user_letter_display }"
     puts
     puts
     puts "\tGuess History:"
