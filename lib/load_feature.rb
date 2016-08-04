@@ -6,5 +6,5 @@ end
 	end
 
 
-string = File.open("./lib/save-states/attempt.json")
-from_json(string)
+#string = File.open("./lib/save-states/attempt.json")
+#from_json(string)
