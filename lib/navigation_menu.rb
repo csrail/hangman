@@ -54,12 +54,17 @@ class Menu
 	end
 	
 	def show_save_states
-		p "Feature not implemented yet."
-		puts Dir.pwd
+		#p "Feature not implemented yet."
+		#puts Dir.pwd
 		#p "before"
 		Dir.chdir("./lib/save-states")
 		#p "after"
-		puts Dir.pwd
+		#puts Dir.pwd
+    system 'clear'
+    puts
+    puts "\tLoad a save state:"
+    puts
+    puts
 		Dir.glob("*.json").each_with_index do |f, i|
 			save_state_availability << i.to_s
 			save_state_file_names << f 
@@ -68,9 +73,8 @@ class Menu
 			puts
 		end
 		puts "Pick a save state number:"
-		puts
-		p		 save_state_availability
-		p		 save_state_file_names
+		#p		 save_state_availability
+		#p		 save_state_file_names
 		#p		 save_state_file_paths if !save_state_file_paths.empty?
 		listen_for_save_state_number
 	end
